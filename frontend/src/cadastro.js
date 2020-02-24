@@ -5,7 +5,6 @@ import 'antd/es/form/style/index.css';
 import 'antd/es/list/style/index.css';
 import 'antd/es/icon/style/index.css';
 import 'antd/es/modal/style/index.css';
-
 import './cadastro.css';
 import {
   Form,
@@ -14,14 +13,14 @@ import {
   List,
   Icon,
   Modal,
+  Label,
 } from 'antd';
 
-var ID = 0;
 
+var ID = 0;
 class RegistrationForm extends React.Component {
   constructor(props){
     super(props)
-
     this.state = {
     id: 0,
     nome: '',
@@ -38,10 +37,10 @@ class RegistrationForm extends React.Component {
   
     handleSubmit = e => {
       e.preventDefault();
+      this.props.form.resetFields();
       this.VetorContatos.push(this.state);
       console.log(this.VetorContatos);
       this.setState({id : ID + 1});
-      this.props.form.resetFields();
       this.setState({
         nome: "",
         telefone: "",
@@ -50,25 +49,19 @@ class RegistrationForm extends React.Component {
     };
 
     handleUpdate = e => {
-      // e.preventDefault();
-      // this.props.form.resetFields();
+      e.preventDefault();
+      this.props.form.resetFields();
       for(var i = 0; i < this.VetorContatos.length; i++){
         if(this.VetorContatos[i].id === this.state.id){
-          
-          this.VetorContatos.pop(i);
+          this.VetorCsontatos.pop(i);
           this.VetorContatos[i] = this.state;
-          // this.VetorContatos.insert(i,this.state);
-          // console.log(exclusao);
 
           return this.setState({visible: false, nome : "", email : "", telefone : ""});
         }
       }
     }
 
-
-
     handleDelete(id) {
-      console.log(id);
       var i;
       for(i = 0; i < this.VetorContatos.length; i++){
           if(this.VetorContatos[i].id === id){
@@ -107,17 +100,15 @@ class RegistrationForm extends React.Component {
       this.props.form.resetFields();
     };
 
-  
     render(){
-      // const { getFieldDecorator } = this.props.form;
       const { visible, loading } = this.state;
       return (
         <div>
-          <Form onSubmit={this.handleSubmit}>
+          <Form className="cadastro" onSubmit={this.handleSubmit}>
             <Form.Item className="nome">
               <label>Nome</label>
               <br></br>
-             <Input  placeholder="Digite o Nome" onChange={this.handleNome}/>
+             <Input placeholder="Digite o Nome" onChange={this.handleNome}/>
             </Form.Item>
 
             <Form.Item className="Telefone">
@@ -136,6 +127,7 @@ class RegistrationForm extends React.Component {
                 Cadastro
             </Button>
           </Form>
+          
 
           <List
             itemLayout="horizontal"
@@ -164,20 +156,23 @@ class RegistrationForm extends React.Component {
                 Editar
               </Button>,
             ]}
+            
           >
-            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleUpdate}>
-              <Form.Item label="Nome">
-                <Input type="text" name="nome" value={this.state.nome} placeholder="Nome da Atividade: " onChange={this.handleNome} />
+            <Form className="atualizar" labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleUpdate}>
+              <Form.Item >
+                <label >Nome:</label>
+                <Input  type="text" name="nome" value={this.state.nome} placeholder="Nome da Atividade: " onChange={this.handleNome} />
               </Form.Item>
 
-              <Form.Item label="Telefone">
+              <Form.Item>
+                <label >Email:</label>
+                <Input  type="text" name="nome" value={this.state.email} placeholder="Nome da Atividade: " onChange={this.handleEmail} />
+              </Form.Item >
+
+              <Form.Item>
+                <label >Telefone:</label>
                 <Input type="text" name="nome" value={this.state.telefone} placeholder="Nome da Atividade: " onChange={this.handleTelefone} />
               </Form.Item >
-
-              <Form.Item label="Email">
-                <Input type="text" name="nome" value={this.state.email} placeholder="Nome da Atividade: " onChange={this.handleEmail} />
-              </Form.Item >
-
             </Form>
           </Modal>
         </div>
