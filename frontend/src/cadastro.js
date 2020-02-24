@@ -13,7 +13,6 @@ import {
   List,
   Icon,
   Modal,
-  Label,
 } from 'antd';
 
 
